@@ -27,19 +27,14 @@ end run
 
 on cleanInputFile(inputFile)
 	set inputFile to absolutePath(inputFile)
+
+	-- Test file exists
 	try
 		set cleanPath to POSIX file inputFile as alias
-	on error txt
-		log "ERROR: " & txt
-		error "Not foundx: " & inputFile
+	on error msg
+		error "ERROR: " & msg
 	end try
 
-	-- Exit if file doesn't exist
---	tell application "System Events"
---		if not exists file inputFile then
---			error "Not found: " & inputFile
---		end if
---	end tell
 	return POSIX file inputFile as alias
 end cleanInputFile
 
@@ -71,15 +66,6 @@ on processFile(theFile, outputDir)
 	set extensionLength to ((length of fileExtension) + 2)
 	set fileName to name of (fileInfo)
 	set fileName to fileName's text 1 thru (-1 * extensionLength)
-
---	tell application "Finder"
---		-- Directory for exports if not exists
---		set exportDirName to fileName & "-export"
---		set exportDir to (container of theFile as text) & exportDirName
---		if not exists exportDir then
---			make new folder at (container of theFile) with properties {name:exportDirName}
---		end if
---	end tell
 
 	-- Exported file paths
 	set outputDir to outputDir as text
